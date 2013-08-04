@@ -1,8 +1,8 @@
 VOID.ED
 =======
 
-First big project in coding - written in C++.
+First big project in coding - a text-based adventure game written in C++.
 
-Repository only contains extra files and runnable .exe. Code is private for right now.
+Repository only contains code of demo. The demo can be downloaded and played through git.
 
-Will make a webiste in the future for buying the full game (at a very small price). Will have some demo code in here.
+Will make a website in the future for buying the full game (at a very small price).
