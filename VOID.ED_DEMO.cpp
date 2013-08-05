@@ -100,7 +100,7 @@ bool cast(int spell, int targ); //function for cast command
 bool use(int itmid, int tarid); //function for use command
 void cinfix(); //fixes buggy inventory - no longer used
 void splash(); //displays splash screen
-void exit_message(); //displays win message
+void demo_exit_message(); //displays end of demo message
 void deathmes(); //displays lose message
 void helpfunc(); //displays help screen
 void checkpoint(char checkname[20]); //is called when checkpoints are reached; takes appropriate action
@@ -126,7 +126,7 @@ int hammerread = 0; //When player uses codex to decipher the hammer glyph.
 int main()
 {
 	setup(); //Runs basic game setup.
-	/*
+	
 	while (1) //Infinite loop the game is always in.
 	{
 		if (!parsein()) //Has the user input, and stores what commandir is supposed to do.
@@ -140,21 +140,21 @@ int main()
 
 		if (endgamepos == 1) //Checks if endgamepos says game is won.
 		{
-			exit_message();
+			demo_exit_message();
 			return 1;
 		}
 
 		if (endgamepos == -1) //Checks if engamepos says player is dead.
 		{
 			deathmes();
-			return 0;
+			return -1;
 		}
 
 		if (endgamepos == 2) //Checks if endgamepos says quit game.
 		{
 			return 2;
 		}
-	}*/
+	}
 }
 void setup()
 {
@@ -593,4 +593,1858 @@ void cta()
 		web_area = current;
 		return;
 	}
+}
+int parsein()
+{
+    char fullin[5000]; //Stores original full input line
+	char temp0[5000]; //Temporarliy stores first word
+    char temp1[5000]; //Temporarliy stores second word
+    char temp2[5000]; //Temporarliy stores third word
+	char eegg; //Static easter egg used to store random static symbol
+	int eegg2; //Static easter egg used to store random number 0 to 4
+	int c; //Counting variable
+	int d; //Counting variable
+	int e; //Counting variable
+	int f; //Counting variable
+	int g; //Counting variable
+	int leng; //Length of full input
+	int space1; //Location of first space entered in input
+	int space2; //Location of second space entered in input
+
+    cout << "\n> ";
+	cin.getline (fullin,5000,'\n'); //Whole Input
+
+	leng = strlen(fullin);
+
+	for (c = 0;c <= leng;c++)
+	{
+		if (fullin[c] == ' ')
+		{
+			space1 = c;
+			break;
+		}
+		if (c == leng)
+		{
+			if (strcmp(fullin,"") == 0)
+			{
+				cout << "\nYou don't talk much.\n";
+				if (silentcal == 0)
+				{
+					checkpoint("silence");
+				}
+				func[0] = 0;
+				return true;
+			}
+
+			//Begin EasterEgg Time!
+			if (strcmp(fullin,"suicide") == 0){endgamepos = -1;func[0] = 0;return true;}
+			if (strcmp(fullin,"portstalker") == 0) {system("netstat -a");}
+			if (strcmp(fullin,"password") == 0) {srand(time_t(NULL));while (1) {eegg2 = rand()%5;if (eegg2 == 0) {eegg = (char)176;} else if (eegg2 == 1) {eegg = (char)177;} else if (eegg2 == 2) {eegg = (char)177;} else if (eegg2 == 3) {eegg = (char)178;} else if (eegg2 == 3) {eegg = (char)219;} else if (eegg2 == 4) {eegg = (char)32;} cout << eegg;}}
+			if (strcmp(fullin,"soup?") == 0) {cout << "\nNo soup for you!\nActually... TWO SOUPS!!\n";func[0] = 0;return true;}
+			if (strcmp(fullin,"abby") == 0) {cout << "\nCorrection... Abby :)\n";return true;}
+			if (strcmp(fullin,"diego") == 0) {cout << "\nCongradulations! You have recieved an ostrich!\n";return true;}
+			if (strcmp(fullin,"ostrich") == 0) {cout << "\nCongradulations! You have redcieved a Diego!\n";return true;}
+			if (strcmp(fullin,"powerlevel") == 0) {cout << "\nIT'S OVER 9000!!!!!!!!!\n";return true;}
+			//End EasterEgg Time!
+
+			func[0] = STRtoID(fullin);
+			func[1] = 0;
+			func[2] = 0;
+			
+			if (!argcheck())
+			{
+				return false;
+			}
+			return true;
+		}
+	}
+
+	for (c = space1 + 1;c <= leng;c++)
+	{
+		if (fullin[c] == ' ')
+		{
+			space2 = c;
+			break;
+		}
+		if (c == leng)
+		{
+			for (d = 0;d < space1;d++)
+			{
+				temp0[d] = fullin[d];
+			}
+			for (f = space1;f < 5000;f++)
+			{
+				temp0[f] = '\0';
+			}
+			d = 0;
+			for (e = space1 + 1;e < leng;e++)
+			{
+				temp1[d] = fullin[e];
+				d++;
+			}
+			for (f = d;f < 5000;f++)
+			{
+				temp1[f] = '\0';
+			}
+			func[0] = STRtoID(temp0);
+			if (STRtoID(temp0) == 666)
+			{
+				return false;
+			}
+			func[1] = STRtoID(temp1);
+			func[2] = 0;
+			
+			if (!argcheck())
+			{
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	for (c = space2 +1;c <= leng;c++)
+	{
+		if (fullin[c] == ' ')
+		{
+			if (!argcheck())
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		if (c == leng)
+		{
+			for (d = 0;d < space1;d++)
+			{
+				temp0[d] = fullin[d];
+			}
+			for (f = space1;f < 5000;f++)
+			{
+				temp0[f] = '\0';
+			}
+			d = 0;
+			for (e = space1 + 1;e < space2;e++)
+			{
+				temp1[d] = fullin[e];
+				d++;
+			}
+			for (f = d;f < 5000;f++)
+			{
+				temp1[f] = '\0';
+			}
+			e = 0;
+			for (g = space2 + 1;g < leng;g++)
+			{
+				temp2[e] = fullin[g];
+				e++;
+			}
+			for (f = e;f < 5000;f++)
+			{
+				temp2[f] = '\0';
+			}
+			func[0] = STRtoID(temp0);
+			if (STRtoID(temp0) == 666)
+			{
+				return false;
+			}
+			func[1] = STRtoID(temp1);
+			func[2] = STRtoID(temp2);
+			
+			if (!argcheck())
+			{
+				return false;
+			}
+			return true;
+		}
+	}
+}
+bool argcheck()
+{
+        switch (func[0])
+        {
+        case 666:
+                return 0;
+        case 10:
+                switch (func[1])
+                {
+				case -1: case -2: case -3: case -4: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 42: case 43: case 44: case 45: case 47: case 48: case 164: case 2000: case 2001:
+                        switch (func[2])
+                        {
+                        case 0:
+							return 1;
+						default:
+							return 0;
+                        };
+				default:
+						return 0;
+                };
+        case 11: case 12:
+                switch (func[1])
+                {
+				case 1: case 2: case 3: case 4: case 6: case 7: case 8: case 164:
+                        switch (func[2])
+                        {
+                        case 0:
+							return 1;
+						default:
+							return 0;
+                        };
+				default:
+						return 0;
+                };        
+        case 13:
+                switch (func[1])
+                {
+                case 1:
+                        switch (func[2])
+                        {
+						case -4: case -3: case -2: case -1: case 2:
+							return 1;
+						default:
+							return 0;
+                        };
+				case 2:
+						switch (func[2])
+                        {
+						case -4:
+							return 1;
+						default:
+							return 0;
+                        };
+                case 3:
+                        switch (func[2])
+                        {
+						case -4: case 5: case 7: case 3005:
+							return 1;
+						default:
+							return 0;
+                        };
+                case 7:
+                        switch (func[2])
+                        {
+						case -4: case 2000:
+							return 1;
+						default:
+							return 0;
+                        };
+				default:
+						return 0;
+                };
+        case 14:
+                switch (func[1])
+                {
+				case 90: case 91: case 92: case 93: case 94: case 95: case 3011:
+                        switch (func[2])
+                        {
+                        case 0:
+							return 1;
+						default:
+							return 0;
+                        };
+				default:
+					return 0;
+                };
+        case 15:
+                switch (func[1])
+                {
+                case 1000:
+                        switch (func[2])
+                        {
+						case 3000: case 3001: case 3002: case 3003: case 3004: case 3005: case 3007: case 3008: case 3009: case 3010: case 3012:
+							return 1;
+						default:
+							return 0;
+                        };
+                case 1001:
+                        switch (func[2])
+                        {
+                        case -4: case -3: case -2:
+							return 1;
+						default:
+							return 0;
+                        };
+                case 1002:
+                        switch (func[2])
+                        {
+                        case 2001: case 2000:
+							return 1;
+						default:
+							return 0;
+                        };
+				default:
+						return 0;
+                };
+        case 16:
+                switch (func[1])
+                {
+                case 4:
+                        switch (func[2])
+                        {
+                        case 6:
+                            return 1;
+						default:
+							return 0;
+                        };
+				default:
+					return 0;
+                };
+		case 17:
+			return 1;
+		case 18:
+			return 1;
+		case 43:
+			return 1;
+		case 44:
+			return 1;
+		case 45:
+			return 1;
+		case 46:
+			return 1;
+		case 47:
+			return 1;
+		case 48:
+			return 1;
+		case 49:
+			return 1;
+		case 90:
+			return 1;
+		case 91:
+			return 1;
+		case 92:
+			return 1;
+		case 93:
+			return 1;
+		case 94:
+			return 1;
+		case 95:
+			return 1;
+		default:
+			return 0;
+        };
+       
+
+}
+void commandir() 
+{
+	if (func[0] == 0)
+	{
+		return;
+	}
+
+	if (func[0] == 10) 
+	{
+		if (!look(func[1]))
+		{
+			cout << "\nThat's not something I know how to look at.\n";
+			return;
+		}
+	}
+
+	if (func[0] == 11)
+	{
+		if (!take(func[1])) 
+		{
+			cout << "\nYou can't take that!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 12)
+	{
+		if (!drop(func[1])) 
+		{
+			cout << "\nYou don't have that!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 13)
+	{
+		if (!use(func[1],func[2]))
+		{
+			cout << "\nYou can't do that!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 14)
+	{
+		if (!navmanager(func[1]))
+		{
+			cout << "\nThere is nothing in that direction!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 15)
+	{
+		if (!cast(func[1],func[2]))
+		{
+			cout << "\nYou can't do that on that!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 16)
+	{
+		if (!combine(func[1],func[2]))
+		{
+			cout << "You can't do that with those items!";
+			return;
+		}
+	}
+
+	if (func[0] == 17)
+	{
+		endgamepos = 2;
+	}
+
+	if (func[0] == 18)
+	{
+		if (!eatfunc())
+		{
+			cout << "\nYou do not have anything to eat!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 43)
+	{
+		look(func[0]);
+	}
+
+	if (func[0] == 44)
+	{
+		look(func[0]);
+	}
+
+	if (func[0] == 45)
+	{
+		helpfunc();
+	}
+
+	if (func[0] == 46)
+	{
+		cout << "\nWell hello to you too!\n";
+	}
+
+	if (func[0] == 47)
+	{
+		maps();
+	}
+
+	if (func[0] == 48)
+	{
+		medals();
+	}
+	if (func[0] == 90)
+	{
+		if (!navmanager(func[0]))
+		{
+			cout << "\nThere is nothing in that direction!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 91)
+	{
+		if (!navmanager(func[0]))
+		{
+			cout << "\nThere is nothing in that direction!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 92)
+	{
+		if (!navmanager(func[0]))
+		{
+			cout << "\nThere is nothing in that direction!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 93)
+	{
+		if (!navmanager(func[0]))
+		{
+			cout << "\nThere is nothing in that direction!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 94)
+	{
+		if (!navmanager(func[0]))
+		{
+			cout << "\nThere is nothing in that direction!\n";
+			return;
+		}
+	}
+
+	if (func[0] == 95)
+	{
+		if (!navmanager(func[0]))
+		{
+			cout << "\nThere is nothing in that direction!\n";
+			return;
+		}
+	}
+}
+int STRtoID(char STR[])
+{
+        int flag = 666;
+		 
+		if (!strcmp(STR,"boss"))
+        {
+                flag = -4;
+                return flag;
+        }
+		else if (!strcmp(STR,"dragon"))
+        {
+                flag = -4;
+                return flag;
+        }
+		else if (!strcmp(STR,"dragon-boss"))
+        {
+                flag = -4;
+                return flag;
+        }
+        else if (!strcmp(STR,"guard"))
+        {
+                flag = -3;
+                return flag;
+        }
+        else if (!strcmp(STR,"wolf"))
+        {
+                flag = -2;
+                return flag;
+        }
+        else if (!strcmp(STR,"me"))
+        {
+                flag = -1;
+                return flag;
+        }
+		else if (!strcmp(STR,"myself"))
+        {
+                flag = -1;
+                return flag;
+        }
+		else if (!strcmp(STR,"I"))
+        {
+                flag = -1;
+                return flag;
+        }
+		else if (!strcmp(STR,"i"))
+        {
+                flag = -1;
+                return flag;
+        }
+        else if (!strcmp(STR,"knife"))
+        {
+                flag = 1;
+                return flag;
+        }
+        else if (!strcmp(STR,"rope"))
+        {
+                flag = 2;
+                return flag;
+        }
+		else if (!strcmp(STR, "string"))
+		{
+				flag = 2;
+				return flag;
+		}
+		else if (!strcmp(STR, "spider-string"))
+		{
+				flag = 2;
+				return flag;
+		}
+		else if (!strcmp(STR, "silk"))
+		{
+				flag = 2;
+				return flag;
+		}
+		else if (!strcmp(STR, "spiderstring"))
+		{
+				flag = 2;
+				return flag;
+		}
+		else if (!strcmp(STR, "web"))
+		{
+				flag = 2;
+				return flag;
+		}
+		else if (!strcmp(STR, "spiderweb"))
+		{
+				flag = 2;
+				return flag;
+		}
+        else if (!strcmp(STR,"codex"))
+        {
+                flag = 3;
+                return flag;
+        }
+        else if (!strcmp(STR,"stick"))
+        {
+                flag = 4;
+                return flag;
+        }
+        else if (!strcmp(STR,"grave"))
+        {
+                flag = 5;
+                return flag;
+        }
+		else if (!strcmp(STR,"tomb"))
+        {
+                flag = 5;
+                return flag;
+        }
+        else if (!strcmp(STR,"crystal"))
+        {
+                flag = 6;
+                return flag;
+        }
+        else if (!strcmp(STR,"hammer"))
+        {
+                flag = 7;
+                return flag;
+        }
+		else if (!strcmp(STR,"meat"))
+        {
+                flag = 8;
+                return flag;
+        }
+        else if (!strcmp(STR,"look"))
+        {
+                flag = 10;
+                return flag;
+        }
+		else if (!strcmp(STR,"search"))
+        {
+                flag = 10;
+                return flag;
+        }
+		else if (!strcmp(STR,"see"))
+        {
+                flag = 10;
+                return flag;
+        }
+        else if (!strcmp(STR,"take"))
+        {
+                flag = 11;
+                return flag;
+        }
+		else if (!strcmp(STR,"get"))
+        {
+                flag = 11;
+                return flag;
+        }
+		else if (!strcmp(STR,"grab"))
+        {
+                flag = 11;
+                return flag;
+        }
+        else if (!strcmp(STR,"drop"))
+        {
+                flag = 12;
+                return flag;
+        }
+        else if (!strcmp(STR,"use"))
+        {
+                flag = 13;
+                return flag;
+        }
+        else if (!strcmp(STR,"travel"))
+        {
+                flag = 14;
+                return flag;
+        }
+		else if (!strcmp(STR,"go"))
+        {
+                flag = 14;
+                return flag;
+        }
+		else if (!strcmp(STR,"head"))
+        {
+                flag = 14;
+                return flag;
+        }
+        else if (!strcmp(STR,"cast"))
+        {
+                flag = 15;
+                return flag;
+        }
+        else if (!strcmp(STR,"combine"))
+        {
+                flag = 16;
+                return flag;
+        }
+		else if (!strcmp(STR,"craft"))
+        {
+                flag = 16;
+                return flag;
+        }
+		else if (!strcmp(STR,"merge"))
+        {
+                flag = 16;
+                return flag;
+        }
+		else if (!strcmp(STR,"stop"))
+		{
+				flag = 17;
+				return flag;
+		}
+		else if (!strcmp(STR,"quit"))
+		{
+				flag = 17;
+				return flag;
+		}
+		else if (!strcmp(STR,"eat"))
+		{
+				flag = 18;
+				return flag;
+		}
+        else if (!strcmp(STR,"around"))
+        {
+                flag = 42;
+                return flag;
+        }
+        else if (!strcmp(STR,"inventory"))
+        {
+                flag = 43;
+                return flag;
+        }
+		else if (!strcmp(STR,"inv"))
+        {
+                flag = 43;
+                return flag;
+        }
+		else if (!strcmp(STR,"items"))
+        {
+                flag = 44;
+                return flag;
+        }
+		else if (!strcmp(STR,"help"))
+        {
+                flag = 45;
+                return flag;
+        }
+		else if (!strcmp(STR,"assist"))
+        {
+                flag = 45;
+                return flag;
+        }
+		else if (!strcmp(STR,"assistance"))
+        {
+                flag = 45;
+                return flag;
+        }
+		else if (!strcmp(STR,"hello"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"hi"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"hey"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"yo"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"hai"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"kanitchiwa"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"hola"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"bonjour"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"shalom"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"oy"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"ciao"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"howdy"))
+        {
+                flag = 46;
+                return flag;
+        }
+		else if (!strcmp(STR,"map"))
+        {
+                flag = 47;
+                return flag;
+        }
+		else if (!strcmp(STR,"maps"))
+        {
+                flag = 47;
+                return flag;
+        }
+		else if (!strcmp(STR,"achievement"))
+        {
+                flag = 48;
+                return flag;
+        }
+		else if (!strcmp(STR,"achievements"))
+        {
+                flag = 48;
+                return flag;
+        }
+		else if (!strcmp(STR,"badge"))
+        {
+                flag = 48;
+                return flag;
+        }
+		else if (!strcmp(STR,"badges"))
+        {
+                flag = 48;
+                return flag;
+        }
+		else if (!strcmp(STR,"medals"))
+        {
+                flag = 48;
+                return flag;
+        }
+		else if (!strcmp(STR,"medal"))
+        {
+                flag = 48;
+                return flag;
+        }
+		else if (!strcmp(STR,"unlocks"))
+        {
+                flag = 48;
+                return flag;
+        }
+		else if (!strcmp(STR,"display"))
+        {
+                flag = 49;
+                return flag;
+        }
+		else if (!strcmp(STR,"main"))
+        {
+                flag = 49;
+                return flag;
+        }
+		else if (!strcmp(STR,"everything"))
+        {
+                flag = 49;
+                return flag;
+        }
+		else if (!strcmp(STR,"menu"))
+        {
+                flag = 49;
+                return flag;
+        }
+		else if (!strcmp(STR,"all"))
+        {
+                flag = 49;
+                return flag;
+        }
+        else if (!strcmp(STR,"north"))
+        {
+                flag = 90;
+                return flag;
+        }
+        else if (!strcmp(STR,"n"))
+        {
+                flag = 90;
+                return flag;
+        }
+        else if (!strcmp(STR,"south"))
+        {
+                flag = 91;
+                return flag;
+        }
+        else if (!strcmp(STR,"s"))
+        {
+                flag = 91;
+                return flag;
+        }
+        else if (!strcmp(STR,"east"))
+        {
+                flag = 92;
+                return flag;
+        }
+        else if (!strcmp(STR,"e"))
+        {
+                flag = 92;
+                return flag;
+        }
+        else if (!strcmp(STR,"west"))
+        {
+                flag = 93;
+                return flag;
+        }
+        else if (!strcmp(STR,"w"))
+        {
+                flag = 93;
+                return flag;
+        }
+        else if (!strcmp(STR,"up"))
+        {
+                flag = 94;
+                return flag;
+        }
+        else if (!strcmp(STR,"u"))
+        {
+                flag = 94;
+                return flag;
+        }
+        else if (!strcmp(STR,"down"))
+        {
+                flag = 95;
+                return flag;
+        }
+        else if (!strcmp(STR,"d"))
+        {
+                flag = 95;
+                return flag;
+        }
+        else if (!strcmp(STR,"wand"))
+        {
+                flag = 164;
+                return flag;
+        }
+        else if (!strcmp(STR,"xyzzy"))
+        {
+                flag = 1000;
+                return flag;
+        }
+        else if (!strcmp(STR,"fireball"))
+        {
+                flag = 1001;
+                return flag;
+        }
+		else if (!strcmp(STR,"hadouken"))
+        {
+                flag = 1001;
+                return flag;
+        }
+        else if (!strcmp(STR,"unlock"))
+        {
+                flag = 1002;
+                return flag;
+        }
+        else if (!strcmp(STR,"door"))
+        {
+                flag = 2000;
+                return flag;
+        }
+        else if (!strcmp(STR,"gate"))
+        {
+                flag = 2001;
+                return flag;
+        }
+        else if (!strcmp(STR,"meadow"))
+        {
+                flag = 3000;
+                return flag;
+        }
+        else if (!strcmp(STR,"castle"))
+        {
+                flag = 3001;
+                return flag;
+        }
+        else if (!strcmp(STR,"crystal_cave"))
+        {
+                flag = 3002;
+                return flag;
+        }
+        else if (!strcmp(STR,"graveyard"))
+        {
+                flag = 3003;
+                return flag;
+        }
+        else if (!strcmp(STR,"tunnel"))
+        {
+                flag = 3004;
+                return flag;
+        }
+        else if (!strcmp(STR,"cave"))
+        {
+                flag = 3005;
+                return flag;
+        }
+		else if (!strcmp(STR,"wall"))
+        {
+                flag = 3005;
+                return flag;
+        }
+		else if (!strcmp(STR,"cave-wall"))
+        {
+                flag = 3005;
+                return flag;
+        }
+        else if (!strcmp(STR,"gend"))
+        {
+                flag = 3006;
+                return flag;
+        }
+        else if (!strcmp(STR,"house"))
+        {
+                flag = 3007;
+                return flag;
+        }
+        else if (!strcmp(STR,"chamber"))
+        {
+                flag = 3008;
+                return flag;
+        }
+        else if (!strcmp(STR,"forest"))
+        {
+                flag = 3009;
+                return flag;
+        }
+        else if (!strcmp(STR,"gate_area"))
+        {
+                flag = 3010;
+                return flag;
+        }
+		else if (!strcmp(STR,"mordor"))
+		{
+				flag = 3011;
+				return flag;
+		}
+		else if (!strcmp(STR, "web_area"))
+		{
+				flag = 3012;
+				return flag;
+		}
+        return flag;
+}
+void IDtoSTR(int ID)
+{
+        switch (ID)
+        {
+				case -4:
+						strcpy(idname,"Dragon-boss");
+						break;
+				case -3:
+						strcpy(idname,"Guard");
+						break;
+				case -2:
+						strcpy(idname,"Wolf");
+						break;
+				case -1:
+						strcpy(idname,"Yourself");
+						break;
+				case 0:
+						strcpy(idname,"Empty.");
+						break;
+				case 1:
+                        strcpy(idname,"knife");
+                        break;
+                case 2:
+                        strcpy(idname,"rope");
+                        break;
+                case 3:
+                        strcpy(idname,"codex");
+                        break;
+                case 4:
+                        strcpy(idname,"stick");
+                        break;
+                case 5:
+                        strcpy(idname,"grave");
+                        break;
+                case 6:
+                        strcpy(idname,"crystal");
+                        break;
+                case 7:
+                        strcpy(idname,"hammer");
+                        break;
+				case 8:
+						strcpy(idname,"meat");
+						break;
+                case 10:
+                        strcpy(idname,"look");
+                        break;
+                case 11:
+                        strcpy(idname,"take");
+                        break;
+                case 12:
+                        strcpy(idname,"drop");
+                        break;
+                case 13:
+                        strcpy(idname,"use");
+                        break;
+                case 14:
+                        strcpy(idname,"travel");
+                        break;
+                case 15:
+                        strcpy(idname,"cast");
+                        break;
+                case 16:
+                        strcpy(idname,"combine");
+                        break;
+				case 17:
+						strcpy(idname,"quit");
+						break;
+				case 18:
+						strcpy(idname,"eat");
+						break;
+                case 42:
+                        strcpy(idname,"around");
+                        break;
+                case 43:
+                        strcpy(idname,"inventory");
+                        break;
+				case 44:
+						strcpy(idname,"items");
+						break;
+				case 45:
+						strcpy(idname,"help");
+						break;
+				case 46:
+						strcpy(idname,"hello");
+						break;
+				case 47:
+						strcpy(idname,"map");
+						break;
+				case 48:
+						strcpy(idname,"achievements");
+						break;
+                case 90:
+                        strcpy(idname,"north");
+                        break;
+                case 91:
+                        strcpy(idname,"south");
+                        break;
+                case 92:
+                        strcpy(idname,"east");
+                        break;
+                case 93:
+                        strcpy(idname,"west");
+                        break;
+                case 94:
+                        strcpy(idname,"up");
+                        break;
+                case 95:
+                        strcpy(idname,"down");
+                        break;
+                case 164:
+                        strcpy(idname,"wand");
+                        break;
+                case 1000:
+                        strcpy(idname,"xyzzy");
+                        break;
+                case 1001:
+                        strcpy(idname,"fireball");
+                        break;
+                case 1002:
+                        strcpy(idname,"unlock");
+                        break;
+                case 2000:
+                        strcpy(idname,"door");
+                        break;
+                case 2001:
+                        strcpy(idname,"gate");
+                        break;
+                case 3000:
+                        strcpy(idname,"Meadow");
+                        break;
+                case 3001:
+                        strcpy(idname,"Castle");
+                        break;
+                case 3002:
+                        strcpy(idname,"Crystal Cave");
+                        break;
+                case 3003:
+                        strcpy(idname,"Graveyard");
+                        break;
+                case 3004:
+                        strcpy(idname,"Tunnel");
+                        break;
+                case 3005:
+                        strcpy(idname,"Caves");
+                        break;
+                case 3006:
+                        strcpy(idname,"Gend");
+                        break;
+                case 3007:
+                        strcpy(idname,"House");
+                        break;
+                case 3008:
+                        strcpy(idname,"Chamber");
+                        break;
+                case 3009:
+                        strcpy(idname,"Forest");
+                        break;
+                case 3010:
+                        strcpy(idname,"Gate Area");
+                        break;
+				case 3011:
+						strcpy(idname,"Mordor");
+						break;
+				case 3012:
+						strcpy(idname,"Web Area");
+						break;
+				default:
+						strcpy(idname,"Error");
+						break;
+        };
+}
+bool pollpinv(int id)
+{
+	int c;
+
+	for (c = 0; c <= 3; c++)
+	{
+		if (inventory[c] == id)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+bool pollrinv(int id)
+{
+	int c;
+	for (c = 0; c < 99; c++)
+	{
+		if (current.roomventory[c] == id)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+int add_item(int id)
+{
+    int c;
+	int indicator = 0;
+    
+	for (c = 0;c < 4;c++)
+    {
+        if (inventory[c] == 0)
+        {
+            inventory[c] = id;
+            indicator = 1;
+            break;
+        }
+    }
+    if (indicator == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+int del_item(int id)
+{
+    int c;
+	int indicator = 0;
+   
+	for (c = 0;c < 4;c++)
+    {
+        if (inventory[c] == id)
+        {
+            inventory[c] = 0;
+            indicator = 1;
+            break;
+        }
+    }
+    if (indicator == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+int radd_item(int id)
+{
+    int c;
+	int indicator = 0;
+  
+	for (c = 0;c < 99;c++)
+    {
+        if (current.roomventory[c] == 0)
+        {
+            current.roomventory[c] = id;
+            indicator = 1;
+            break;
+        }
+    }
+    if (indicator == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+int rdel_item(int id)
+{
+    int c;
+	int indicator = 0;
+   
+	for (c = 0;c < 100;c++)
+    {
+        if (current.roomventory[c] == id)
+        {
+            current.roomventory[c] = 0;
+            indicator = 1;
+            break;
+        }
+    }
+    if (indicator == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+bool addlinks(int target, int dir, bool save)
+{
+	int pos = current.clinkpos;
+	if (pos >= 13) 
+	{
+		return false;
+	}
+	current.links[pos] = target;
+	current.links[pos + 1] = dir;
+	current.clinkpos += 2;
+	if (save) 
+	{
+		cta();
+	}
+	return true;
+}
+bool ctravelvalid(int dir)
+{
+	int c;
+	for (c = 2;c < 12;c+=2)
+	{
+		if (current.links[c] == dir)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+int findtarget(int dir)
+{
+	int c;
+	for (c = 2; c < 12; c+=2)
+	{
+		if (current.links[c] == dir)
+		{
+			return current.links[c-1];
+		}
+	}
+}
+bool look(int target) 
+{
+	int d,e;
+	
+	if (!argcheck())
+	{
+		return false;
+	}
+
+	switch(target)
+	{
+	case -4:
+		if (pollpinv(-4) || pollrinv(-4))
+		{
+			cout << boss.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case -3:
+		if (pollpinv(-3) || pollrinv(3))
+		{
+			cout << guard.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case -2:
+		if (pollpinv(-2) || pollrinv(-2))
+		{
+			cout << wolf.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case -1:
+			cout << me.description;
+			return true;
+	case 1:
+		if (pollpinv(1) || pollrinv(1))
+		{
+			cout << knife.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case 2:
+		if (pollpinv(2) || pollrinv(2))
+		{
+			cout << rope.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case 3:
+		if (pollpinv(3) || pollrinv(3))
+		{
+			cout << codex.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case 4:
+		if (pollpinv(4) || pollrinv(4))
+		{
+			cout << stick.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case 5:
+		if (pollpinv(5) || pollrinv(5))
+		{
+			cout << grave.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case 6:
+		if (pollpinv(6) || pollrinv(6))
+		{
+			cout << crystal.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case 7:
+		if (pollpinv(7) || pollrinv(7))
+		{
+			cout << hammer.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case 8:
+		if (pollrinv(8) || meatchunks > 0)
+		{
+			cout << meat.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case 42:
+		cout << current.description;
+		return true;
+	case 43:
+		cout << "\nYour inventory contains:\n";
+		
+		for (d = 0; d < 4;d++)
+		{
+			IDtoSTR(inventory[d]);
+			cout << idname << "\n";
+		}
+
+		if (meatchunks == 1)
+		{
+			cout << "You have 1 piece of meat.\n";
+		}
+		else
+		{
+			cout << "You have " << meatchunks << " pieces of meat.\n";
+		}
+		
+		return true;
+	case 44:
+		d = 1;
+		for (e = 0; e < 4; e++)
+		{
+			if (current.roomventory[e] != 0 && current.roomventory[e] < 1999 && current.roomventory[e] != 5 && current.roomventory[e] > 0)
+			{
+				d = 0;
+			}
+		}
+		if (d == 0)
+		{
+			cout << "\nThe area contains: \n";
+			for (e = 0; e < 99; e++)
+			{
+				if (current.roomventory[e] != 0 && current.roomventory[e] < 1999 && current.roomventory[e] != 5 && current.roomventory[e] > 0)
+				{
+					IDtoSTR(current.roomventory[e]);
+					cout << idname << "\n";
+				}
+			}
+			return true;
+		} 
+		else
+		{
+			cout << "\nThe area is empty!\n";
+			return true;
+		}
+	case 45:
+		helpfunc();
+		return true;
+	case 47:
+		maps();
+		return true;
+	case 48:
+		medals();
+		return true;
+	case 164:
+		if (pollpinv(164) || pollrinv(164))
+		{
+			cout << wand.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case 2000:
+		if (pollpinv(2000) || pollrinv(2000))
+		{
+			cout << door.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	case 2001:
+		if (pollpinv(2001) || pollrinv(2001))
+		{
+			cout << gate.description;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	default:
+		return false;
+	};
+}
+bool take(int target)
+{
+	if (!argcheck())
+	{
+		return false;
+	}
+
+	if (!pollrinv(target))
+	{
+		cout << "\nYou can't take that here!\n";
+		return true;
+	}
+
+	if (target == 2 && stickier == 0)
+	{
+		cout << "The spider string is too sticky to take!\nYou should try using something to cut it down.\n";
+		return true;
+	}
+
+	if (target == 8)
+	{
+		rdel_item(8);
+		meatchunks++;
+		cout << "\nYou took a meat chunk!\n";
+		return true;
+	}
+
+	if (!pollpinv(0))
+	{
+		cout << "\nYou have no empty spots in your inventory!\n";
+		return true;
+	}
+
+	IDtoSTR(target);
+	add_item(target);
+	rdel_item(target);
+	cout << "\nYou took the " << idname << ".\n";
+
+	if (target == 4 && stickies == 0)
+	{
+		checkpoint("sticky1");
+	}
+	hungerfunc();
+	return true;
+}
+bool drop(int target)
+{
+	if (!argcheck())
+	{
+		return false;
+	}
+
+	if (target == 8)
+	{
+		cout << "You might find use of that meat.\n";
+		return true;
+	}
+
+	if (!pollpinv(target))
+	{
+		cout << "\nYou're not carrying that!\n";
+		return true;
+	}
+
+	IDtoSTR(target);
+	cout << "\nYou dropped the " << idname << " on the ground.\n";
+	del_item(target);
+	radd_item(target);
+	hungerfunc();
+	return true;
+}
+bool use(int itmid, int tarid)
+{
+	int i = 0;
+	int I = 0;
+	
+	if (!argcheck())
+	{
+		return false;
+	}
+
+	if (tarid == -4)
+	{
+		IDtoSTR(itmid);
+
+		if (current.place_id != 3006 && !pollpinv(itmid))
+			{
+				cout << "\nYou don't have a " << idname << "!\n";
+				return true;
+			}
+		
+		if (current.place_id != 3006)
+			{
+				cout << "\nThere is no boss near you!\n";
+				return true;
+			}
+		
+		if (!pollpinv(itmid))
+		{
+			cout << "You run up to the dragon just to realize that yout don't\nhave a " << idname << ". The dragon wakes up and eats you whole.\nBummer.\n";
+			Sleep(4000);
+			endgamepos = -1;
+			return true;
+		}
+		else
+		{
+			cout << "\nYou run up to the dragon, " << idname << "-a-blazing, but\nbefore you can say 'THIS IS SPARTA!', the dragon\narouses and you are a pile of ash.\n";
+			Sleep(4000);
+			endgamepos = -1;
+			return true;
+		}
+	}
+
+	switch (itmid)
+	{
+		case 1:
+			if (!pollpinv(1))
+			{
+				cout << "\nYou don't have a knife!\n";
+				return true;
+			}
+
+			switch (tarid)
+			{
+			case -1:
+				cout << "\nYou stab yourself!\n";
+				Sleep(1200);
+				endgamepos = -1;
+				return true;
+			case 2:
+				if (current.place_id != 3012)
+				{
+					cout << "\nYou can't see any rope or spider string!\n";
+					return true;
+				}
+				if (stickier != 0)
+				{
+					cout << "\nThe spider string has already been cut down!\n";
+					return true;
+				}
+				if (!pollpinv(0))
+				{
+					cout << "\nYou have no empty spots in your inventory!\n";
+					return true;
+				}
+				cout << "You have cut down the spider string from the web.\nIt looks like it can double as a rope.\n";
+				rdel_item(2);
+				add_item(2);
+				checkpoint("sticky2");
+				hungerfunc();
+				return true;
+			};
+		case 3:
+			if (!pollpinv(3))
+			{
+				cout << "\nYou don't have a codex!\n";
+				return true;
+			}
+			switch (tarid)
+			{
+				case 7:
+					if (!pollpinv(7) && !pollrinv(7))
+					{
+						cout << "\nYou don't have a hammer!\n";
+						return true;
+					}
+					cout << "\nThe glyphs on the hammer read: To use the wand to be killing your enemies,\nyou must be casting the 'fireball' on your target. To use the\nwand to be unlocking magically the doors of the world,\nyou must be casting the 'unlock' spell on your target.\n";
+					checkpoint("hm");
+					hungerfunc();
+					return true;
+				case 5:
+					if (current.place_id == 3003)
+					{
+						cout << "\nThe glyphs on the grave read: There is a tunnel down below here.\n";
+						addlinks(3004,95,true);
+						hungerfunc();
+						return true;
+					}
+					cout << "\nYou can't see any graves!\n";
+					return true;
+				case 3005:
+					if (current.place_id == 3005)
+					{
+						cout << "\nThe glyphs on the cave wall read:\nTo create a wand, combine a stick with a sacred crystal.\n";
+						checkpoint("wall");
+						hungerfunc();
+						return true;
+					}
+					cout << "\nYou're not in the cave.\n";
+					return true;
+			};
+		case 7:
+			if (!pollpinv(7))
+			{
+				cout << "\nYou don't have a hammer!\n";
+				return true;
+			}
+			switch (tarid)
+			{
+				case 2000:
+					if (pollrinv(2000) && current.place_id == 3004)
+					{
+						I = 1;
+					}
+					if (I == 0)
+					{
+						cout << "\nThere are no doors near you!\n";
+						return true;
+					}
+					else
+					{
+						current.roomventory[I] = 0;
+						addlinks(3012,90,true);
+						cout << "\nYou have broken the door! You can now head north.\n";
+						hungerfunc();
+						return true;
+					}
+			};
+	};
+	return false;
+}
+void deathmes()
+{
+	char deadm[400];
+	int c;
+	int len;
+
+	strcpy(deadm, "You have died. I am so sorry.\nIf I could do anything to help, I would but...\nUnfortunatly, you're dead. I hope you enjoyed your adventure.\nIt's really a shame, I know, but...\nWell, you are dead so, bye!\n\n\n\n\n\n\n\n");
+	
+	len = strlen(deadm);
+
+	system("cls");
+
+	for (c = 0;c <= len;c++)
+	{
+		cout << deadm[c];
+		Sleep(120);
+	}
+}
+void demo_exit_message()
+{
+	char endmes[2000];
+	int l;
+	int c;
+	strcpy(endmes,"This is the end of the demo. More message will be here in the future.");
+
+	l = strlen(endmes);
+
+	system("cls");
+
+	for (c = 0;c < l;c++)
+	{
+		cout << endmes[c];
+
+		Sleep(30);
+	}
+
+	system("cls");
+	Sleep(1000);
 }
